@@ -2,6 +2,22 @@ import argparse
 import re
 import sys
 
+'''
+Converts any format mac address to:
+    Colon separated: 64:e8:81:43:cc:4e
+    HPE format: 64e881-43cc4e
+    Cisco Format: 64e8.8143.cc4e
+    MS Format: 64-e8-81-43-cc-4e
+    No Space Format: 64e88143cc4e
+
+    Usage
+    convert-mac.py --mac 64e88143cc4e
+    64:e8:81:43:cc:4e
+    64e881-43cc4e
+    64e8.8143.cc4e
+    64-e8-81-43-cc-4e
+    64e88143cc4e
+'''
 
 def format_mac(mac: str) -> str:
     """Converts most common MAC address formats
@@ -38,7 +54,7 @@ def format_mac(mac: str) -> str:
     ms = mac
     # convert mac in canonical form (eg. 00:80:41:ae:fd:7e)
     colon = ":".join(["%s" % (mac[i:i+2]) for i in range(0, 12, 2)])
-    #HPE format
+    # HPE format
     hpe = "-".join(["%s" % (mac[i:i+6]) for i in range(0, 12, 6)])
     # Cisco format
     cisco = ".".join(["%s" % (mac[i:i+4]) for i in range(0, 12, 4)])
